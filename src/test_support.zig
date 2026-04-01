@@ -148,11 +148,11 @@ pub fn exactCleanupTaggedI32(xs: []TaggedI32, pass_limit: ?usize, out_stats: ?*S
 
     var pass: usize = 0;
     while (true) : (pass += 1) {
-        if (out_stats) |s| s.cleanup_rounds += 1;
-
         if (pass_limit) |limit| {
             if (pass >= limit) break;
         }
+
+        if (out_stats) |s| s.cleanup_rounds += 1;
 
         const swapped_even = oddEvenPassTagged(xs, 0, out_stats);
         const swapped_odd = oddEvenPassTagged(xs, 1, out_stats);

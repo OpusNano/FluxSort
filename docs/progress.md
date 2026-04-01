@@ -12,11 +12,12 @@ This document tracks the next correctness-first phase as repository-visible work
 - [x] Stability wording hardening
 - [x] Debug counters for transport and cleanup
 - [x] Tagged-identity stability harness
+- [x] Stats-based accounting tests for cleanup limits and multi-block work
 
 ## Active next-phase checklist
 
 - [ ] Decide whether tagged-identity evidence is strong enough to strengthen or further narrow stability wording
-- [ ] Add more stats-based convergence tests around transport acceptance and cleanup work
+- [x] Add more stats-based convergence tests around transport acceptance and cleanup work
 - [x] Expand literature-positioning notes into a review checklist with citations/tasks
 - [ ] Open source-backed literature review tasks from the new checklist
 - [ ] Decide whether `isSorted` remains part of the long-term public API
