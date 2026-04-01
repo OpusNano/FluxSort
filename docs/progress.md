@@ -20,6 +20,7 @@ This document tracks the next correctness-first phase as repository-visible work
 - [x] Broader tagged-identity stability search coverage added
 - [x] Initial citations expanded beyond the odd-even / local-exchange baseline
 - [x] Source-level `isSorted` doc comment added
+- [x] Config-matrix differential and invariant test layer added
 
 ## Active next-phase checklist
 
@@ -48,6 +49,7 @@ This document tracks the next correctness-first phase as repository-visible work
 - larger exhaustive tagged-identity searches where still tractable
 - additional structured duplicate-heavy adversarial fixtures
 - convergence/accounting tests using debug counters
+- continued cross-config differential coverage as implementation changes land
 
 ### Docs and positioning
 
