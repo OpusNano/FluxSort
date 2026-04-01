@@ -18,7 +18,9 @@ AdicFlux is a correctness-first implementation of an experimental integer sortin
 - Stable target resolution inside each block.
 - Transport moves that are accepted only when they strictly reduce local energy.
 - Exact odd-even cleanup that guarantees eventual sorting.
-- Unit tests, deterministic edge cases, and randomized reference comparisons.
+- Unit tests, deterministic edge cases, randomized reference comparisons, and stats/invariant checks.
+- Tagged-identity stability checks that provide test-supported evidence without claiming a formal proof.
+- A source-backed literature review log that keeps positioning and novelty language conservative.
 
 ## What is not implemented yet
 
