@@ -8,6 +8,7 @@ test {
     _ = @import("unit/stats_test.zig");
     _ = @import("property/random_arrays_test.zig");
     _ = @import("property/adversarial_patterns_test.zig");
+    _ = @import("property/stability_tagged_test.zig");
     _ = @import("property/duplicates_test.zig");
     _ = @import("property/sorted_reverse_test.zig");
     _ = @import("property/edge_values_test.zig");

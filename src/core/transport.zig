@@ -10,6 +10,23 @@ pub const BlockResult = struct {
     after_energy: u64,
 };
 
+fn isPermutation(mapping: []const usize) bool {
+    var seen: [Config.max_block_size]bool = [_]bool{false} ** Config.max_block_size;
+    for (mapping) |value| {
+        if (value >= mapping.len) return false;
+        if (seen[value]) return false;
+        seen[value] = true;
+    }
+    for (seen[0..mapping.len]) |flag| {
+        if (!flag) return false;
+    }
+    return true;
+}
+
+fn equalSlices(comptime T: type, lhs: []const T, rhs: []const T) bool {
+    return std.mem.eql(T, lhs, rhs);
+}
+
 pub fn resolveTargets(desired: []const usize, source_to_final: []usize) void {
     std.debug.assert(source_to_final.len >= desired.len);
 
@@ -47,6 +64,9 @@ pub fn tryTransportBlock(comptime T: type, block: []T, cfg: Config, stats: ?*Sta
         return .{ .accepted = false, .before_energy = before_energy, .after_energy = before_energy };
     }
 
+    var original: [Config.max_block_size]T = undefined;
+    std.mem.copyForwards(T, original[0..block.len], block);
+
     var pressures: [Config.max_block_size]i32 = undefined;
     var proposals: [Config.max_block_size]i8 = undefined;
     var desired: [Config.max_block_size]usize = undefined;
@@ -72,12 +92,14 @@ pub fn tryTransportBlock(comptime T: type, block: []T, cfg: Config, stats: ?*Sta
     }
 
     resolveTargets(desired[0..block.len], source_to_final[0..block.len]);
+    std.debug.assert(isPermutation(source_to_final[0..block.len]));
     for (block, 0..) |value, source_index| {
         candidate[source_to_final[source_index]] = value;
     }
 
     const after_energy = energy.blockEnergy(T, candidate[0..block.len], cfg);
     if (after_energy >= before_energy) {
+        std.debug.assert(equalSlices(T, block, original[0..block.len]));
         if (stats) |s| s.transport_blocks_rejected += 1;
         return .{ .accepted = false, .before_energy = before_energy, .after_energy = before_energy };
     }
