@@ -17,7 +17,8 @@ This document tracks the next correctness-first phase as repository-visible work
 
 - [ ] Decide whether tagged-identity evidence is strong enough to strengthen or further narrow stability wording
 - [ ] Add more stats-based convergence tests around transport acceptance and cleanup work
-- [ ] Expand literature-positioning notes into a review checklist with citations/tasks
+- [x] Expand literature-positioning notes into a review checklist with citations/tasks
+- [ ] Open source-backed literature review tasks from the new checklist
 - [ ] Decide whether `isSorted` remains part of the long-term public API
 - [ ] Freeze a benchmark-readiness checklist version before any benchmark harness is added
 
@@ -38,5 +39,6 @@ This document tracks the next correctness-first phase as repository-visible work
 ### Docs and positioning
 
 - literature review checklist
+- source-backed literature review issues
 - algorithm-family comparison notes with citations
 - API surface notes for unstable test support
