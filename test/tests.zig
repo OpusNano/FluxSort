@@ -8,6 +8,7 @@ test {
     _ = @import("unit/cleanup_test.zig");
     _ = @import("unit/stats_test.zig");
     _ = @import("property/random_arrays_test.zig");
+    _ = @import("property/config_matrix_test.zig");
     _ = @import("property/adversarial_patterns_test.zig");
     _ = @import("property/stability_tagged_test.zig");
     _ = @import("property/duplicates_test.zig");

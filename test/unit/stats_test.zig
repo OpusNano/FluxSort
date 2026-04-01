@@ -1,19 +1,10 @@
 const std = @import("std");
 const adicflux = @import("adicflux");
 const support = adicflux.unstable_test_support;
+const validation = @import("../support/validation.zig");
 
 const Config = support.config.Config;
 const Stats = support.stats.Stats;
-
-fn expectStatsBalanced(stats: Stats) !void {
-    try std.testing.expect(stats.transport_blocks_visited > 0);
-    try std.testing.expectEqual(
-        stats.transport_blocks_visited,
-        stats.transport_blocks_accepted + stats.transport_blocks_rejected,
-    );
-    try std.testing.expectEqual(stats.cleanup_rounds, stats.cleanup_even_passes);
-    try std.testing.expectEqual(stats.cleanup_rounds, stats.cleanup_odd_passes);
-}
 
 test "sortWithStats records transport and cleanup activity" {
     const cfg = Config{
@@ -27,7 +18,7 @@ test "sortWithStats records transport and cleanup activity" {
     var stats = Stats{};
     support.sortWithStats(i32, xs[0..], cfg, &stats);
 
-    try expectStatsBalanced(stats);
+    try validation.expectStatsBalanced(stats, false);
     try std.testing.expect(stats.cleanup_rounds > 0);
 }
 
@@ -61,7 +52,7 @@ test "sorted input performs cleanup accounting without swaps" {
     var stats = Stats{};
     support.sortWithStats(i32, xs[0..], cfg, &stats);
 
-    try expectStatsBalanced(stats);
+    try validation.expectStatsBalanced(stats, false);
     try std.testing.expectEqual(@as(usize, 0), stats.transport_blocks_accepted);
     try std.testing.expect(stats.transport_blocks_rejected > 0);
     try std.testing.expectEqual(@as(usize, 1), stats.cleanup_rounds);
@@ -84,7 +75,7 @@ test "multi-block input records transport work across blocks" {
     var stats = Stats{};
     support.sortWithStats(i32, xs[0..], cfg, &stats);
 
-    try expectStatsBalanced(stats);
+    try validation.expectStatsBalanced(stats, false);
     try std.testing.expect(stats.transport_blocks_visited >= 3);
     try std.testing.expect(stats.cleanup_swaps > 0);
     try std.testing.expect(adicflux.isSorted(i32, xs[0..]));
@@ -103,7 +94,7 @@ test "limited cleanup leaves disorder while stats remain internally consistent" 
     var stats = Stats{};
     support.sortWithStats(i32, xs[0..], cfg, &stats);
 
-    try expectStatsBalanced(stats);
+    try validation.expectStatsBalanced(stats, false);
     try std.testing.expectEqual(@as(usize, 1), stats.cleanup_rounds);
     try std.testing.expect(!adicflux.isSorted(i32, xs[0..]));
 }
