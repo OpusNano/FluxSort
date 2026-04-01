@@ -2,16 +2,7 @@ const std = @import("std");
 
 pub const Config = @import("core/config.zig").Config;
 pub const DefaultConfig = @import("core/config.zig").default_config;
-
-pub const testing = struct {
-    pub const config = @import("core/config.zig");
-    pub const key = @import("core/key.zig");
-    pub const energy = @import("core/energy.zig");
-    pub const pressure = @import("core/pressure.zig");
-    pub const transport = @import("core/transport.zig");
-    pub const cleanup = @import("core/cleanup.zig");
-    pub const util = @import("internal/util.zig");
-};
+pub const unstable_test_support = @import("test_support.zig");
 
 const cleanup = @import("core/cleanup.zig");
 const transport = @import("core/transport.zig");
@@ -34,14 +25,14 @@ pub fn sortWithConfig(comptime T: type, xs: []T, cfg: Config) void {
 
         while (start < xs.len) : (start += cfg.block_size) {
             const end = @min(start + cfg.block_size, xs.len);
-            const result = transport.tryTransportBlock(T, xs[start..end], cfg);
+            const result = transport.tryTransportBlock(T, xs[start..end], cfg, null);
             any_accepted = any_accepted or result.accepted;
         }
 
         if (!any_accepted) break;
     }
 
-    cleanup.exactCleanup(T, xs, cfg.cleanup_pass_limit);
+    cleanup.exactCleanup(T, xs, cfg.cleanup_pass_limit, null);
 }
 
 pub fn isSorted(comptime T: type, xs: []const T) bool {

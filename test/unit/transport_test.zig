@@ -1,8 +1,9 @@
 const std = @import("std");
 const adicflux = @import("adicflux");
-const Config = adicflux.testing.config.Config;
-const energy = adicflux.testing.energy;
-const transport = adicflux.testing.transport;
+const support = adicflux.unstable_test_support;
+const Config = support.config.Config;
+const energy = support.energy;
+const transport = support.transport;
 const reference = @import("../support/reference.zig");
 
 fn expectPermutation(mapping: []const usize) !void {
@@ -37,7 +38,7 @@ test "accepted transport move strictly reduces local energy" {
     const original = [_]i32{ 2, 0, 1 };
     var xs = original;
     const before = energy.blockEnergy(i32, xs[0..], cfg);
-    const result = transport.tryTransportBlock(i32, xs[0..], cfg);
+    const result = transport.tryTransportBlock(i32, xs[0..], cfg, null);
     const after = energy.blockEnergy(i32, xs[0..], cfg);
 
     try std.testing.expect(result.accepted);
@@ -51,7 +52,7 @@ test "rejected transport leaves sorted block unchanged" {
     const cfg = Config{ .block_size = 8, .neighborhood = 2, .max_displacement = 2 };
     const original = [_]i32{ -2, -1, 0, 1, 2, 3 };
     var xs = original;
-    const result = transport.tryTransportBlock(i32, xs[0..], cfg);
+    const result = transport.tryTransportBlock(i32, xs[0..], cfg, null);
 
     try std.testing.expect(!result.accepted);
     try std.testing.expectEqual(result.before_energy, result.after_energy);
@@ -62,7 +63,7 @@ test "accepted transport keeps block as a permutation" {
     const cfg = Config{ .block_size = 8, .neighborhood = 3, .max_displacement = 2 };
     const original = [_]i32{ 9, 1, 8, 2, 7, 3, 6, 4 };
     var xs = original;
-    const result = transport.tryTransportBlock(i32, xs[0..], cfg);
+    const result = transport.tryTransportBlock(i32, xs[0..], cfg, null);
 
     if (result.accepted) {
         try reference.expectSameMultiset(i32, original[0..], xs[0..]);

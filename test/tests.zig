@@ -5,6 +5,7 @@ test {
     _ = @import("unit/pressure_test.zig");
     _ = @import("unit/transport_test.zig");
     _ = @import("unit/cleanup_test.zig");
+    _ = @import("unit/stats_test.zig");
     _ = @import("property/random_arrays_test.zig");
     _ = @import("property/adversarial_patterns_test.zig");
     _ = @import("property/duplicates_test.zig");

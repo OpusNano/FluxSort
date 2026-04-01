@@ -1,7 +1,8 @@
 const std = @import("std");
 const adicflux = @import("adicflux");
+const support = adicflux.unstable_test_support;
 
-const Config = adicflux.testing.config.Config;
+const Config = support.config.Config;
 
 test "config validation rejects invalid values" {
     try std.testing.expectError(Config.Error.BlockSizeZero, (Config{ .block_size = 0 }).validate());

@@ -1,7 +1,7 @@
 const std = @import("std");
 const adicflux = @import("adicflux");
-const util = adicflux.testing.util;
-const key = adicflux.testing.key;
+const util = adicflux.unstable_test_support.util;
+const key = adicflux.unstable_test_support.key;
 
 pub fn referenceSort(comptime T: type, xs: []T) void {
     util.insertionSort(T, xs);

@@ -1,7 +1,8 @@
 const std = @import("std");
 const adicflux = @import("adicflux");
-const Config = adicflux.testing.config.Config;
-const pressure = adicflux.testing.pressure;
+const support = adicflux.unstable_test_support;
+const Config = support.config.Config;
+const pressure = support.pressure;
 
 test "pressure points inverted endpoints toward each other" {
     const cfg = Config{ .neighborhood = 4 };

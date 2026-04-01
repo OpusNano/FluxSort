@@ -2,6 +2,7 @@ const std = @import("std");
 const Config = @import("config.zig").Config;
 const energy = @import("energy.zig");
 const pressure = @import("pressure.zig");
+const Stats = @import("stats.zig").Stats;
 
 pub const BlockResult = struct {
     accepted: bool,
@@ -36,11 +37,13 @@ pub fn resolveTargets(desired: []const usize, source_to_final: []usize) void {
     }
 }
 
-pub fn tryTransportBlock(comptime T: type, block: []T, cfg: Config) BlockResult {
+pub fn tryTransportBlock(comptime T: type, block: []T, cfg: Config, stats: ?*Stats) BlockResult {
     std.debug.assert(block.len <= Config.max_block_size);
+    if (stats) |s| s.transport_blocks_visited += 1;
 
     const before_energy = energy.blockEnergy(T, block, cfg);
     if (block.len <= 1 or before_energy == 0) {
+        if (stats) |s| s.transport_blocks_rejected += 1;
         return .{ .accepted = false, .before_energy = before_energy, .after_energy = before_energy };
     }
 
@@ -64,6 +67,7 @@ pub fn tryTransportBlock(comptime T: type, block: []T, cfg: Config) BlockResult 
     }
 
     if (!changed) {
+        if (stats) |s| s.transport_blocks_rejected += 1;
         return .{ .accepted = false, .before_energy = before_energy, .after_energy = before_energy };
     }
 
@@ -74,9 +78,11 @@ pub fn tryTransportBlock(comptime T: type, block: []T, cfg: Config) BlockResult 
 
     const after_energy = energy.blockEnergy(T, candidate[0..block.len], cfg);
     if (after_energy >= before_energy) {
+        if (stats) |s| s.transport_blocks_rejected += 1;
         return .{ .accepted = false, .before_energy = before_energy, .after_energy = before_energy };
     }
 
     std.mem.copyForwards(T, block, candidate[0..block.len]);
+    if (stats) |s| s.transport_blocks_accepted += 1;
     return .{ .accepted = true, .before_energy = before_energy, .after_energy = after_energy };
 }

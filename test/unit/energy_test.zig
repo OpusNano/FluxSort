@@ -1,7 +1,8 @@
 const std = @import("std");
 const adicflux = @import("adicflux");
-const Config = adicflux.testing.config.Config;
-const energy = adicflux.testing.energy;
+const support = adicflux.unstable_test_support;
+const Config = support.config.Config;
+const energy = support.energy;
 
 test "pair energy is zero for ordered and equal pairs" {
     const cfg = Config{};

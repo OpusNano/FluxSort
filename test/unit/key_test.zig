@@ -1,7 +1,8 @@
 const std = @import("std");
 const adicflux = @import("adicflux");
-const key = adicflux.testing.key;
-const Config = adicflux.testing.config.Config;
+const support = adicflux.unstable_test_support;
+const key = support.key;
+const Config = support.config.Config;
 
 test "biased key preserves signed integer order" {
     const values = [_]i8{ -128, -17, -1, 0, 1, 42, 127 };
