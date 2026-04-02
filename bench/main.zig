@@ -26,12 +26,56 @@ const Result = struct {
     avg_ns_per_item: u64,
     transport_accepted: usize,
     transport_rejected: usize,
+    grouped_exact_blocks: usize,
+    moved_delta_blocks: usize,
+    full_delta_blocks: usize,
     cleanup_rounds: usize,
     cleanup_swaps: usize,
 };
 
+const Filters = struct {
+    datasets: ?[]const u8 = null,
+    sizes: ?[]const u8 = null,
+    iterations_override: ?usize = null,
+};
+
 fn datasetName(dataset: Dataset) []const u8 {
     return @tagName(dataset);
+}
+
+fn datasetSelected(filters: Filters, dataset: Dataset) bool {
+    if (filters.datasets) |list| {
+        return std.mem.indexOf(u8, list, datasetName(dataset)) != null;
+    }
+    return true;
+}
+
+fn sizeSelected(filters: Filters, size: usize) bool {
+    if (filters.sizes) |list| {
+        var buf: [32]u8 = undefined;
+        const rendered = std.fmt.bufPrint(&buf, "{d}", .{size}) catch return false;
+        return std.mem.indexOf(u8, list, rendered) != null;
+    }
+    return true;
+}
+
+fn parseFilters(allocator: std.mem.Allocator) !Filters {
+    var filters = Filters{};
+    var args = try std.process.argsWithAllocator(allocator);
+    defer args.deinit();
+
+    _ = args.next();
+    while (args.next()) |arg| {
+        if (std.mem.startsWith(u8, arg, "--datasets=")) {
+            filters.datasets = try allocator.dupe(u8, arg[11..]);
+        } else if (std.mem.startsWith(u8, arg, "--sizes=")) {
+            filters.sizes = try allocator.dupe(u8, arg[8..]);
+        } else if (std.mem.startsWith(u8, arg, "--iterations=")) {
+            filters.iterations_override = try std.fmt.parseInt(usize, arg[13..], 10);
+        }
+    }
+
+    return filters;
 }
 
 fn fillDataset(xs: []i32, dataset: Dataset, random: std.Random) void {
@@ -138,6 +182,9 @@ fn timeAdicFlux(allocator: std.mem.Allocator, input: []const i32, cfg: Config, i
         .avg_ns_per_item = @divFloor(total_ns, iterations * @max(@as(usize, 1), input.len)),
         .transport_accepted = validation_stats.transport_blocks_accepted,
         .transport_rejected = validation_stats.transport_blocks_rejected,
+        .grouped_exact_blocks = validation_stats.grouped_exact_blocks,
+        .moved_delta_blocks = validation_stats.moved_delta_blocks,
+        .full_delta_blocks = validation_stats.full_delta_blocks,
         .cleanup_rounds = validation_stats.cleanup_rounds,
         .cleanup_swaps = validation_stats.cleanup_swaps,
     };
@@ -174,6 +221,9 @@ fn timeBaseline(allocator: std.mem.Allocator, input: []const i32, iterations: us
         .avg_ns_per_item = @divFloor(total_ns, iterations * @max(@as(usize, 1), input.len)),
         .transport_accepted = 0,
         .transport_rejected = 0,
+        .grouped_exact_blocks = 0,
+        .moved_delta_blocks = 0,
+        .full_delta_blocks = 0,
         .cleanup_rounds = 0,
         .cleanup_swaps = 0,
     };
@@ -189,7 +239,7 @@ fn chooseIterations(size: usize) usize {
 
 fn printResult(writer: anytype, result: Result, dataset: Dataset) !void {
     try writer.print(
-        "{s},{s},{d},{d},{d},{d},{d},{d},{d},{d},{d}\n",
+        "{s},{s},{d},{d},{d},{d},{d},{d},{d},{d},{d},{d},{d},{d}\n",
         .{
             result.algo,
             datasetName(dataset),
@@ -200,6 +250,9 @@ fn printResult(writer: anytype, result: Result, dataset: Dataset) !void {
             result.avg_ns_per_item,
             result.transport_accepted,
             result.transport_rejected,
+            result.grouped_exact_blocks,
+            result.moved_delta_blocks,
+            result.full_delta_blocks,
             result.cleanup_rounds,
             result.cleanup_swaps,
         },
@@ -210,6 +263,9 @@ pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
+    const filters = try parseFilters(allocator);
+    defer if (filters.datasets) |value| allocator.free(value);
+    defer if (filters.sizes) |value| allocator.free(value);
 
     const stdout = std.io.getStdOut().writer();
     var bw = std.io.bufferedWriter(stdout);
@@ -224,15 +280,17 @@ pub fn main() !void {
     try writer.print("# adicflux benchmark harness\n", .{});
     try writer.print("# zig_version,{s}\n", .{@import("builtin").zig_version_string});
     try writer.print("# optimize_mode,{s}\n", .{@tagName(@import("builtin").mode)});
-    try writer.print("algo,dataset,size,iterations,total_ns,avg_ns,avg_ns_per_item,transport_accepted,transport_rejected,cleanup_rounds,cleanup_swaps\n", .{});
+    try writer.print("algo,dataset,size,iterations,total_ns,avg_ns,avg_ns_per_item,transport_accepted,transport_rejected,grouped_exact_blocks,moved_delta_blocks,full_delta_blocks,cleanup_rounds,cleanup_swaps\n", .{});
 
     for (datasets) |dataset| {
+        if (!datasetSelected(filters, dataset)) continue;
         for (sizes) |size| {
+            if (!sizeSelected(filters, size)) continue;
             const input = try allocator.alloc(i32, size);
             defer allocator.free(input);
             fillDataset(input, dataset, random);
 
-            const iterations = chooseIterations(size);
+            const iterations = filters.iterations_override orelse chooseIterations(size);
 
             var adic_result = try timeAdicFlux(allocator, input, cfg, iterations);
             adic_result.dataset = dataset;

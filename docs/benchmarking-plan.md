@@ -14,6 +14,12 @@ The repository now includes a local-only benchmark harness runnable with:
 zig build bench -Doptimize=ReleaseFast
 ```
 
+For tighter tuning loops, the harness also accepts lightweight filters such as:
+
+```sh
+zig build bench -Doptimize=ReleaseFast -- --datasets=duplicate_heavy,random --sizes=1024,4096 --iterations=200
+```
+
 The harness is intended for developer measurement and tuning, not for CI and not for README marketing claims.
 
 It currently:
