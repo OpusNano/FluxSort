@@ -119,8 +119,13 @@ pub fn tryTransportBlock(comptime T: type, block: []T, cfg: Config, stats: ?*Sta
         blk: {
             if (stats) |s| s.grouped_exact_blocks += 1;
             energy.buildGroupWeightMatrix(T, distinct_keys[0..distinct_count], cfg, weight_matrix[0 .. distinct_count * distinct_count]);
-            pressure.computeFromKeys(T, keys[0..block.len], cfg, pressures[0..block.len]);
-            break :blk energy.blockEnergyFromGroupIds(group_ids[0..block.len], distinct_count, weight_matrix[0 .. distinct_count * distinct_count]);
+            break :blk pressure.computeFromGroupIdsWithEnergy(
+                group_ids[0..block.len],
+                distinct_count,
+                cfg.neighborhood,
+                weight_matrix[0 .. distinct_count * distinct_count],
+                pressures[0..block.len],
+            );
         }
     else
         pressure.computeFromKeysWithEnergy(T, keys[0..block.len], cfg, pressures[0..block.len]);
