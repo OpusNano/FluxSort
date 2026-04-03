@@ -5,7 +5,7 @@ This document now serves as a compact archive of the best stable milestone and t
 ## Completed
 
 - [x] Public repository bootstrap and CI baseline
-- [x] Core AdicFlux baseline with exact cleanup guarantee
+- [x] Core FluxSort baseline with exact cleanup guarantee
 - [x] Reference-backed randomized correctness tests
 - [x] Public-config semantics hardening
 - [x] Large-array and adversarial test expansion

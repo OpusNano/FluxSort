@@ -35,7 +35,7 @@ pub fn sortWithConfig(comptime T: type, xs: []T, cfg: Config) void {
     cleanup.exactCleanup(T, xs, cfg.cleanup_pass_limit, null);
 }
 
-/// Checks whether `xs` is nondecreasing under AdicFlux's integer-key ordering.
+/// Checks whether `xs` is nondecreasing under FluxSort's integer-key ordering.
 /// This remains public as a small semantic helper, especially for diagnostic
 /// runs that intentionally cap cleanup work.
 pub fn isSorted(comptime T: type, xs: []const T) bool {

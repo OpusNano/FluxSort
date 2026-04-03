@@ -2,7 +2,7 @@
 
 ## Current status
 
-AdicFlux should currently be described as test-supported for stability, not stability-proved.
+FluxSort should currently be described as test-supported for stability, not stability-proved.
 
 The repository still does not claim a complete end-to-end proof that equal integer keys always preserve their original relative order under every accepted transport move.
 
@@ -36,7 +36,7 @@ It should avoid claiming simply "the algorithm is stable" as an unconditional th
 ## What the tests now establish
 
 - plain integer tests continue to verify sortedness and multiset preservation,
-- tagged-identity tests compare AdicFlux-style behavior against a stable reference ordering,
+- tagged-identity tests compare FluxSort-style behavior against a stable reference ordering,
 - small exhaustive searches over short arrays and randomized duplicate-heavy tests have not exposed an equal-key reorder so far.
 
 That strengthens confidence in the current implementation and justifies slightly stronger wording than a bare design intention, but it still falls short of a proof obligation.

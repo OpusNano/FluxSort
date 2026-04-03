@@ -1,5 +1,5 @@
 const std = @import("std");
-const adicflux = @import("adicflux");
+const fluxsort = @import("fluxsort");
 const reference = @import("../support/reference.zig");
 
 test "duplicates and all equal arrays are handled correctly" {
@@ -11,7 +11,7 @@ test "duplicates and all equal arrays are handled correctly" {
 
     for (cases) |case_values| {
         var actual = case_values;
-        adicflux.sort(i16, actual[0..]);
+        fluxsort.sort(i16, actual[0..]);
         try reference.expectSortedAndMatchingReference(i16, case_values[0..], actual[0..]);
     }
 }

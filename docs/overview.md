@@ -1,6 +1,6 @@
 # Overview
 
-AdicFlux is an experimental integer sorting project built around a 2-adic interaction idea. The implementation treats each integer as an order-preserving unsigned key, defines a weighted inversion energy, estimates block-local transport pressure, and attempts only energy-decreasing local permutations before falling back to an exact cleanup stage.
+FluxSort is an experimental integer sorting project built around a 2-adic interaction idea. The implementation treats each integer as an order-preserving unsigned key, defines a weighted inversion energy, estimates block-local transport pressure, and attempts only energy-decreasing local permutations before falling back to an exact cleanup stage.
 
 Repository goals for this first version:
 

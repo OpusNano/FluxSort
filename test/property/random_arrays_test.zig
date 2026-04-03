@@ -1,5 +1,5 @@
 const std = @import("std");
-const adicflux = @import("adicflux");
+const fluxsort = @import("fluxsort");
 const reference = @import("../support/reference.zig");
 
 test "randomized arrays match reference sort" {
@@ -20,11 +20,11 @@ test "randomized arrays match reference sort" {
                 actual[i] = value;
             }
 
-            adicflux.sort(i32, actual[0..size]);
+            fluxsort.sort(i32, actual[0..size]);
             try reference.expectSortedAndMatchingReference(i32, original[0..size], actual[0..size]);
 
             var second = actual;
-            adicflux.sort(i32, second[0..size]);
+            fluxsort.sort(i32, second[0..size]);
             try std.testing.expectEqualSlices(i32, actual[0..size], second[0..size]);
         }
     }

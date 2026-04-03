@@ -1,6 +1,6 @@
 # Findings
 
-AdicFlux ended up as a useful algorithm experiment, not a competitive production sorter.
+FluxSort ended up as a useful algorithm experiment, not a competitive production sorter.
 
 ## Stable Milestone
 
@@ -44,6 +44,6 @@ These were rejected for one or more of the following reasons:
 
 ## Bottom Line
 
-- AdicFlux has a real internal optimization milestone.
+- FluxSort has a real internal optimization milestone.
 - It does not have a convincing benchmark niche against standard baselines.
 - The repository is most valuable as a compact, honest record of an unusual sorting design and the experiments run against it.

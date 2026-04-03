@@ -4,7 +4,7 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const adicflux_mod = b.createModule(.{
+    const fluxsort_mod = b.createModule(.{
         .root_source_file = b.path("src/lib.zig"),
         .target = target,
         .optimize = optimize,
@@ -12,8 +12,8 @@ pub fn build(b: *std.Build) void {
 
     const lib = b.addLibrary(.{
         .linkage = .static,
-        .name = "adicflux",
-        .root_module = adicflux_mod,
+        .name = "fluxsort",
+        .root_module = fluxsort_mod,
     });
     b.installArtifact(lib);
 
@@ -22,10 +22,10 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    exe_mod.addImport("adicflux", adicflux_mod);
+    exe_mod.addImport("fluxsort", fluxsort_mod);
 
     const exe = b.addExecutable(.{
-        .name = "adicflux-demo",
+        .name = "fluxsort-demo",
         .root_module = exe_mod,
     });
     b.installArtifact(exe);
@@ -42,7 +42,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    example_mod.addImport("adicflux", adicflux_mod);
+    example_mod.addImport("fluxsort", fluxsort_mod);
 
     const example_exe = b.addExecutable(.{
         .name = "basic_sort",
@@ -58,14 +58,14 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    tests_mod.addImport("adicflux", adicflux_mod);
+    tests_mod.addImport("fluxsort", fluxsort_mod);
 
     const tests = b.addTest(.{
         .root_module = tests_mod,
     });
     const run_tests = b.addRunArtifact(tests);
 
-    const test_step = b.step("test", "Run AdicFlux tests");
+    const test_step = b.step("test", "Run FluxSort tests");
     test_step.dependOn(&run_tests.step);
 
     const bench_mod = b.createModule(.{
@@ -73,10 +73,10 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    bench_mod.addImport("adicflux", adicflux_mod);
+    bench_mod.addImport("fluxsort", fluxsort_mod);
 
     const bench_exe = b.addExecutable(.{
-        .name = "adicflux-bench",
+        .name = "fluxsort-bench",
         .root_module = bench_mod,
     });
 

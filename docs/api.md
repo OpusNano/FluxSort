@@ -8,7 +8,7 @@
 pub fn sort(comptime T: type, xs: []T) void
 ```
 
-Sorts an integer slice in place using the default AdicFlux configuration.
+Sorts an integer slice in place using the default FluxSort configuration.
 
 ### `sortWithConfig`
 
@@ -26,7 +26,7 @@ Invalid configurations panic with the validation error name. This keeps the publ
 pub fn isSorted(comptime T: type, xs: []const T) bool
 ```
 
-Checks whether a slice is nondecreasing under AdicFlux's key ordering.
+Checks whether a slice is nondecreasing under FluxSort's key ordering.
 
 `isSorted` is an intentional part of the public API. It exists as a small validation helper for examples, tests, and user code that experiments with non-default configurations such as `cleanup_pass_limit`, where a caller may intentionally request a diagnostic run that does not complete the exact cleanup stage.
 
@@ -63,6 +63,6 @@ Optional diagnostic/testing limit for odd-even cleanup rounds.
 
 ## Non-stable internal support
 
-Internal modules used by the test suite are exposed under `adicflux.unstable_test_support`.
+Internal modules used by the test suite are exposed under `fluxsort.unstable_test_support`.
 
 That namespace exists for repository development and tests. It is intentionally non-stable and may change without notice.

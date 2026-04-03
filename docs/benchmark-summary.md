@@ -22,7 +22,7 @@ Pre-milestone comparison was collected from `46f9743` in a temporary worktree us
 
 ## Representative Stable Numbers (`7d12617`)
 
-| Dataset | Size | AdicFlux | `std.sort.pdq` |
+| Dataset | Size | FluxSort | `std.sort.pdq` |
 | --- | ---: | ---: | ---: |
 | `duplicate_heavy` | 1024 | 360123 ns | 1253 ns |
 | `duplicate_heavy` | 4096 | 3481692 ns | 3678 ns |

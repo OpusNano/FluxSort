@@ -1,6 +1,6 @@
 # Positioning
 
-AdicFlux should currently be described as an experimental sorting proposal built from a specific combination of ingredients:
+FluxSort should currently be described as an experimental sorting proposal built from a specific combination of ingredients:
 
 - an order-preserving signed-to-unsigned key transform,
 - a weighted inversion energy using a capped 2-adic closeness term,
@@ -22,7 +22,7 @@ The exact cleanup phase is an odd-even transposition process. That makes compari
 
 ### Radix- and bucket-style methods
 
-AdicFlux does not sort by digit passes, bucket population, or counting frequencies. The 2-adic weighting acts as an interaction term inside a comparison-driven energy model rather than as a radix schedule.
+FluxSort does not sort by digit passes, bucket population, or counting frequencies. The 2-adic weighting acts as an interaction term inside a comparison-driven energy model rather than as a radix schedule.
 
 ### Local-exchange and cellular styles
 
@@ -41,19 +41,19 @@ Use this section as the working structure for literature review issues, notes, a
 
 ### 1. Odd-even and transposition sorting background
 
-Goal: separate what AdicFlux inherits directly from its exact cleanup stage from what is transport-specific.
+Goal: separate what FluxSort inherits directly from its exact cleanup stage from what is transport-specific.
 
 - [ ] collect standard references for odd-even transposition sort / brick sort
 - [ ] note exact guarantees, stability properties, and worst-case complexity for that family
-- [ ] record precisely which parts of AdicFlux's exactness story reduce to this prior background
+- [ ] record precisely which parts of FluxSort's exactness story reduce to this prior background
 
 Suggested capture fields per source:
 
 - citation
 - family/category
 - relevant theorem or claim
-- what overlaps with AdicFlux
-- what does not overlap with AdicFlux
+- what overlaps with FluxSort
+- what does not overlap with FluxSort
 
 ### 2. Local-exchange and relaxation-style sorting proposals
 
@@ -72,7 +72,7 @@ Key comparison questions:
 
 ### 3. Integer sorting that uses bit structure without radix passes
 
-Goal: avoid falsely contrasting AdicFlux only against radix sort when the bit-structure idea may have nearer neighbors.
+Goal: avoid falsely contrasting FluxSort only against radix sort when the bit-structure idea may have nearer neighbors.
 
 - [ ] collect integer-sorting methods that inspect bit relations without classic digit passes
 - [ ] record whether they remain comparison-based, partially counting-based, or hybrid
@@ -90,7 +90,7 @@ Goal: determine whether any nearby method gives reusable proof ideas for equal-k
 
 - [ ] collect references on stable local-permutation or stable transposition arguments
 - [ ] record whether tie handling is built into the local move rule or delegated to a stable fallback
-- [ ] note which proof techniques might transfer to AdicFlux transport
+- [ ] note which proof techniques might transfer to FluxSort transport
 
 ### 5. Novelty-positioning worksheet
 
@@ -98,7 +98,7 @@ For each serious comparison candidate, write a short note with this template:
 
 - citation:
 - family:
-- closest AdicFlux component:
+- closest FluxSort component:
 - strongest similarity:
 - strongest difference:
 - does it weaken any novelty wording:

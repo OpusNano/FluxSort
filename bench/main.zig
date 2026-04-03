@@ -1,9 +1,9 @@
 const std = @import("std");
-const adicflux = @import("adicflux");
+const fluxsort = @import("fluxsort");
 
-const support = adicflux.unstable_test_support;
+const support = fluxsort.unstable_test_support;
 const Stats = support.stats.Stats;
-const Config = adicflux.Config;
+const Config = fluxsort.Config;
 
 const Dataset = enum {
     random,
@@ -154,11 +154,11 @@ fn validateCase(allocator: std.mem.Allocator, input: []const i32, cfg: Config) !
     support.sortWithStats(i32, actual, cfg, &stats);
 
     if (!std.mem.eql(i32, expected, actual)) return error.BenchmarkValidationFailed;
-    if (!adicflux.isSorted(i32, actual)) return error.BenchmarkValidationFailed;
+    if (!fluxsort.isSorted(i32, actual)) return error.BenchmarkValidationFailed;
     return stats;
 }
 
-fn timeAdicFlux(allocator: std.mem.Allocator, input: []const i32, cfg: Config, iterations: usize) !Result {
+fn timeFluxSort(allocator: std.mem.Allocator, input: []const i32, cfg: Config, iterations: usize) !Result {
     const scratch = try allocator.alloc(i32, input.len);
     defer allocator.free(scratch);
 
@@ -168,12 +168,12 @@ fn timeAdicFlux(allocator: std.mem.Allocator, input: []const i32, cfg: Config, i
     var iter: usize = 0;
     while (iter < iterations) : (iter += 1) {
         @memcpy(scratch, input);
-        adicflux.sort(i32, scratch);
+        fluxsort.sort(i32, scratch);
     }
     const total_ns = timer.read();
 
     return .{
-        .algo = "adicflux",
+        .algo = "fluxsort",
         .dataset = undefined,
         .size = input.len,
         .iterations = iterations,
@@ -273,11 +273,11 @@ pub fn main() !void {
 
     const sizes = [_]usize{ 32, 64, 128, 256, 512, 1024, 2048, 4096 };
     const datasets = [_]Dataset{ .random, .sorted, .reverse, .nearly_sorted, .duplicate_heavy, .clustered, .signed_mixed, .alternating };
-    const cfg = adicflux.DefaultConfig;
+    const cfg = fluxsort.DefaultConfig;
     var prng = std.Random.DefaultPrng.init(0xad1cf1);
     const random = prng.random();
 
-    try writer.print("# adicflux benchmark harness\n", .{});
+    try writer.print("# fluxsort benchmark harness\n", .{});
     try writer.print("# zig_version,{s}\n", .{@import("builtin").zig_version_string});
     try writer.print("# optimize_mode,{s}\n", .{@tagName(@import("builtin").mode)});
     try writer.print("algo,dataset,size,iterations,total_ns,avg_ns,avg_ns_per_item,transport_accepted,transport_rejected,grouped_exact_blocks,moved_delta_blocks,full_delta_blocks,cleanup_rounds,cleanup_swaps\n", .{});
@@ -292,7 +292,7 @@ pub fn main() !void {
 
             const iterations = filters.iterations_override orelse chooseIterations(size);
 
-            var adic_result = try timeAdicFlux(allocator, input, cfg, iterations);
+            var adic_result = try timeFluxSort(allocator, input, cfg, iterations);
             adic_result.dataset = dataset;
             try printResult(writer, adic_result, dataset);
 

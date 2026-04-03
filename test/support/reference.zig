@@ -1,7 +1,7 @@
 const std = @import("std");
-const adicflux = @import("adicflux");
-const util = adicflux.unstable_test_support.util;
-const key = adicflux.unstable_test_support.key;
+const fluxsort = @import("fluxsort");
+const util = fluxsort.unstable_test_support.util;
+const key = fluxsort.unstable_test_support.key;
 
 pub fn referenceSort(comptime T: type, xs: []T) void {
     util.insertionSort(T, xs);
@@ -15,7 +15,7 @@ pub fn expectSortedAndMatchingReference(comptime T: type, original: []const T, a
     std.mem.copyForwards(T, expected, original);
     referenceSort(T, expected);
 
-    try std.testing.expect(adicflux.isSorted(T, actual));
+    try std.testing.expect(fluxsort.isSorted(T, actual));
     try std.testing.expect(std.mem.eql(T, expected, actual));
     try expectSameMultiset(T, original, actual);
 }

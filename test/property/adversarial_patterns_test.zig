@@ -1,5 +1,5 @@
 const std = @import("std");
-const adicflux = @import("adicflux");
+const fluxsort = @import("fluxsort");
 const reference = @import("../support/reference.zig");
 
 test "large reverse chunks across block boundaries match reference" {
@@ -10,7 +10,7 @@ test "large reverse chunks across block boundaries match reference" {
         xs[i] = @intCast((11 - @as(i32, @intCast(chunk))) * 32 + (31 - @as(i32, @intCast(offset))));
     }
     const original = xs;
-    adicflux.sort(i32, xs[0..]);
+    fluxsort.sort(i32, xs[0..]);
     try reference.expectSortedAndMatchingReference(i32, original[0..], xs[0..]);
 }
 
@@ -26,7 +26,7 @@ test "alternating duplicate bands and extremes match reference" {
         };
     }
     const original = xs;
-    adicflux.sort(i64, xs[0..]);
+    fluxsort.sort(i64, xs[0..]);
     try reference.expectSortedAndMatchingReference(i64, original[0..], xs[0..]);
 }
 
@@ -38,6 +38,6 @@ test "high valuation clusters and sawtooth layout match reference" {
         xs[i] = base | low_bits;
     }
     const original = xs;
-    adicflux.sort(u32, xs[0..]);
+    fluxsort.sort(u32, xs[0..]);
     try reference.expectSortedAndMatchingReference(u32, original[0..], xs[0..]);
 }

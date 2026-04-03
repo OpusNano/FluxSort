@@ -17,7 +17,7 @@ pub fn biasedKey(comptime T: type, value: T) types.UnsignedOf(T) {
                 break :blk raw ^ sign_mask;
             },
         },
-        else => @compileError("AdicFlux only supports integer element types"),
+        else => @compileError("FluxSort only supports integer element types"),
     };
 }
 

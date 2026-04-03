@@ -1,6 +1,6 @@
-# AdicFlux
+# FluxSort
 
-AdicFlux is an experimental integer sorting algorithm in Zig built around exact local transport guided by a weighted 2-adic pressure field.
+FluxSort is an experimental integer sorting algorithm in Zig built around exact local transport guided by a weighted 2-adic pressure field.
 
 ![Representative benchmark comparison](docs/assets/representative-comparison.svg)
 
@@ -15,7 +15,7 @@ This repository is worth reading as an algorithm experiment, benchmark trail, an
 
 ## Algorithm Sketch
 
-AdicFlux sorts signed integers with four core ideas:
+FluxSort sorts signed integers with four core ideas:
 
 1. Convert signed integers to order-preserving biased unsigned keys.
 2. Compute a local pressure field inside each block from nearby comparisons.
@@ -74,7 +74,7 @@ See `docs/findings.md` for the condensed research trail.
 
 The current stable implementation does not beat the standard-library baseline on the representative full-sort cases below.
 
-| Dataset | Size | AdicFlux | `std.sort.pdq` |
+| Dataset | Size | FluxSort | `std.sort.pdq` |
 | --- | ---: | ---: | ---: |
 | `duplicate_heavy` | 1024 | 360123 ns | 1253 ns |
 | `duplicate_heavy` | 4096 | 3481692 ns | 3678 ns |
@@ -87,7 +87,7 @@ The current stable implementation does not beat the standard-library baseline on
 
 Interpretation:
 
-- AdicFlux has a meaningful internal optimization story.
+- FluxSort has a meaningful internal optimization story.
 - It does not have a competitive benchmark story against strong mainstream baselines.
 - The grouped duplicate-heavy path is interesting as an algorithm-specific milestone, not as evidence of overall speed.
 
@@ -132,16 +132,16 @@ Focused benchmark example:
 ## Basic Usage
 
 ```zig
-const adicflux = @import("adicflux");
+const fluxsort = @import("fluxsort");
 
 var xs = [_]i64{ 9, -3, 4, 4, 0, -9, 7 };
-adicflux.sort(i64, xs[0..]);
+fluxsort.sort(i64, xs[0..]);
 ```
 
 With explicit configuration:
 
 ```zig
-const cfg = adicflux.Config{
+const cfg = fluxsort.Config{
     .block_size = 32,
     .valuation_cap = 8,
     .neighborhood = 8,
@@ -149,14 +149,14 @@ const cfg = adicflux.Config{
     .transport_rounds = 4,
 };
 
-adicflux.sortWithConfig(i64, xs[0..], cfg);
+fluxsort.sortWithConfig(i64, xs[0..], cfg);
 ```
 
 `cleanup_pass_limit` remains available for diagnostic runs; leaving it as `null` preserves the exactness guarantee.
 
 ## Repository Layout
 
-- `src/adicflux.zig` public API
+- `src/fluxsort.zig` public API
 - `src/core/` pressure, energy, transport, cleanup, and configuration code
 - `test/` unit and property tests
 - `bench/main.zig` local benchmark harness
@@ -165,4 +165,4 @@ adicflux.sortWithConfig(i64, xs[0..], cfg);
 
 ## Final Assessment
 
-AdicFlux is an interesting experimental generic integer sorting algorithm with one meaningful optimization milestone and a substantial trail of tested ideas. It is exact, unusual, and reasonably well-documented. It has not been shown to beat relevant baselines, and this repository should be read as a research artifact rather than a production sorting library.
+FluxSort is an interesting experimental generic integer sorting algorithm with one meaningful optimization milestone and a substantial trail of tested ideas. It is exact, unusual, and reasonably well-documented. It has not been shown to beat relevant baselines, and this repository should be read as a research artifact rather than a production sorting library.

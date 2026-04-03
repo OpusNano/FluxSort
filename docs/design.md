@@ -2,7 +2,7 @@
 
 ## Why correctness first
 
-AdicFlux starts from an unusual mathematical idea. That makes honesty and auditability more important than squeezing out early speed. The implementation deliberately keeps the control flow small:
+FluxSort starts from an unusual mathematical idea. That makes honesty and auditability more important than squeezing out early speed. The implementation deliberately keeps the control flow small:
 
 - no heap allocation in the transport hot path,
 - fixed-size stack scratch per block,

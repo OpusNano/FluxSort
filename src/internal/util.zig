@@ -4,7 +4,7 @@ const key = @import("../core/key.zig");
 pub fn assertIntegerType(comptime T: type) void {
     switch (@typeInfo(T)) {
         .int => {},
-        else => @compileError("AdicFlux only supports integer element types"),
+        else => @compileError("FluxSort only supports integer element types"),
     }
 }
 

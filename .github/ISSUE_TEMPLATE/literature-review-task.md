@@ -16,7 +16,7 @@ Explain what wording, comparison, or novelty risk this review is meant to clarif
 
 ## Questions to answer
 
-- [ ] What is the closest overlap with AdicFlux?
+- [ ] What is the closest overlap with FluxSort?
 - [ ] What is the strongest difference?
 - [ ] Does this affect current README/docs wording?
 - [ ] Should it be cited in `docs/positioning.md` later?

@@ -1,6 +1,6 @@
 const std = @import("std");
-const adicflux = @import("adicflux");
-const support = adicflux.unstable_test_support;
+const fluxsort = @import("fluxsort");
+const support = fluxsort.unstable_test_support;
 const reference = @import("reference.zig");
 
 pub const Config = support.config.Config;
@@ -51,7 +51,7 @@ pub fn expectLimitedSortCase(comptime T: type, original: []const T, cfg: Config)
     support.sortWithStats(T, actual, cfg, &stats);
 
     try reference.expectSameMultiset(T, original, actual);
-    try std.testing.expectEqual(adicflux.isSorted(T, actual), support.util.isSorted(T, actual));
+    try std.testing.expectEqual(fluxsort.isSorted(T, actual), support.util.isSorted(T, actual));
     try expectStatsBalanced(stats, original.len <= 1);
 
     if (cfg.cleanup_pass_limit) |limit| {
@@ -62,7 +62,7 @@ pub fn expectLimitedSortCase(comptime T: type, original: []const T, cfg: Config)
         }
     }
 
-    if (adicflux.isSorted(T, actual)) {
+    if (fluxsort.isSorted(T, actual)) {
         try reference.expectSortedAndMatchingReference(T, original, actual);
     }
 }

@@ -26,10 +26,10 @@ The harness is intended for developer measurement and tuning. The README uses on
 
 It currently:
 
-- benchmarks AdicFlux default sorting against a Zig standard-library baseline,
+- benchmarks FluxSort default sorting against a Zig standard-library baseline,
 - emits structured CSV-style rows,
 - covers multiple dataset families and sizes,
-- validates AdicFlux output against a trusted baseline before timed loops,
+- validates FluxSort output against a trusted baseline before timed loops,
 - reports transport and cleanup counters from a validation run.
 
 ## Hard gate: do not benchmark until all items below are true

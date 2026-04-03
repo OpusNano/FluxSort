@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="980" height="360" viewBox="0 0 980 360" role="img" aria-labelledby="title desc">
   <title id="title">Internal grouped-window milestone comparison</title>
-  <desc id="desc">Comparison of pre-7d12617 and 7d12617 AdicFlux benchmark times on duplicate-heavy and random datasets.</desc>
+  <desc id="desc">Comparison of pre-7d12617 and 7d12617 FluxSort benchmark times on duplicate-heavy and random datasets.</desc>
   <rect width="980" height="360" fill="#f7f3ea"/>
   <text x="40" y="40" font-family="Georgia, serif" font-size="24" fill="#1f2a1f">Internal Progress To 7d12617</text>
   <text x="40" y="66" font-family="Verdana, sans-serif" font-size="13" fill="#4a564a">Grouped-window pressure compression materially improved duplicate-heavy blocks and left random roughly flat.</text>

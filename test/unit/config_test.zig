@@ -1,6 +1,6 @@
 const std = @import("std");
-const adicflux = @import("adicflux");
-const support = adicflux.unstable_test_support;
+const fluxsort = @import("fluxsort");
+const support = fluxsort.unstable_test_support;
 
 const Config = support.config.Config;
 
@@ -32,9 +32,9 @@ test "cleanup pass limit is honored by sortWithConfig" {
     var limited = [_]i32{ 8, 7, 6, 5, 4, 3, 2, 1 };
     var exact = limited;
 
-    adicflux.sortWithConfig(i32, limited[0..], limited_cfg);
-    adicflux.sortWithConfig(i32, exact[0..], exact_cfg);
+    fluxsort.sortWithConfig(i32, limited[0..], limited_cfg);
+    fluxsort.sortWithConfig(i32, exact[0..], exact_cfg);
 
-    try std.testing.expect(!adicflux.isSorted(i32, limited[0..]));
-    try std.testing.expect(adicflux.isSorted(i32, exact[0..]));
+    try std.testing.expect(!fluxsort.isSorted(i32, limited[0..]));
+    try std.testing.expect(fluxsort.isSorted(i32, exact[0..]));
 }

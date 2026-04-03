@@ -1,1 +1,1 @@
-pub usingnamespace @import("adicflux.zig");
+pub usingnamespace @import("fluxsort.zig");

@@ -10,7 +10,7 @@ For unsigned integers, the key is the value itself.
 
 For indices `i < j`, an inversion contributes energy when `key(xs[i]) > key(xs[j])`.
 
-The baseline contribution is `1`. AdicFlux adds a capped 2-adic closeness bonus:
+The baseline contribution is `1`. FluxSort adds a capped 2-adic closeness bonus:
 
 - compute `key(xs[i]) xor key(xs[j])`,
 - take `ctz(...)`,
@@ -44,7 +44,7 @@ That is a local acceptance criterion. In the current repository it should not be
 
 ## 5. Exact cleanup stage
 
-After transport rounds finish, AdicFlux runs odd-even adjacent cleanup until no swaps remain. This is the exact stage. With the default configuration, it guarantees that the final output is sorted even if every transport proposal is rejected.
+After transport rounds finish, FluxSort runs odd-even adjacent cleanup until no swaps remain. This is the exact stage. With the default configuration, it guarantees that the final output is sorted even if every transport proposal is rejected.
 
 The configuration also exposes `cleanup_pass_limit` for diagnostic runs. Using a finite limit intentionally weakens that guarantee because cleanup may stop before the array is sorted.
 

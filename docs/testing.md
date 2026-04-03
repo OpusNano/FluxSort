@@ -30,7 +30,7 @@ Each randomized case checks:
 
 ## Tagged stability tests
 
-Because plain integer duplicates do not expose equal-key identity directly, the suite also includes a test-only tagged harness. It runs AdicFlux-style transport and cleanup on `(key, tag)` records while comparing the result against a stable reference ordering.
+Because plain integer duplicates do not expose equal-key identity directly, the suite also includes a test-only tagged harness. It runs FluxSort-style transport and cleanup on `(key, tag)` records while comparing the result against a stable reference ordering.
 
 This gives the repository a meaningful way to search for equal-key reorderings without promoting the result to a formal proof.
 

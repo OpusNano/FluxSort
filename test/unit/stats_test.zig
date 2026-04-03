@@ -1,6 +1,6 @@
 const std = @import("std");
-const adicflux = @import("adicflux");
-const support = adicflux.unstable_test_support;
+const fluxsort = @import("fluxsort");
+const support = fluxsort.unstable_test_support;
 const validation = @import("../support/validation.zig");
 
 const Config = support.config.Config;
@@ -78,7 +78,7 @@ test "multi-block input records transport work across blocks" {
     try validation.expectStatsBalanced(stats, false);
     try std.testing.expect(stats.transport_blocks_visited >= 3);
     try std.testing.expect(stats.cleanup_swaps > 0);
-    try std.testing.expect(adicflux.isSorted(i32, xs[0..]));
+    try std.testing.expect(fluxsort.isSorted(i32, xs[0..]));
 }
 
 test "limited cleanup leaves disorder while stats remain internally consistent" {
@@ -96,5 +96,5 @@ test "limited cleanup leaves disorder while stats remain internally consistent" 
 
     try validation.expectStatsBalanced(stats, false);
     try std.testing.expectEqual(@as(usize, 1), stats.cleanup_rounds);
-    try std.testing.expect(!adicflux.isSorted(i32, xs[0..]));
+    try std.testing.expect(!fluxsort.isSorted(i32, xs[0..]));
 }
