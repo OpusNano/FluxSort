@@ -1,10 +1,12 @@
 # Benchmarking Plan
 
-This repository intentionally does not publish benchmark numbers yet.
+This repository now publishes a small, curated benchmark snapshot in `README.md` and `docs/benchmark-summary.md`.
+
+Those numbers are included as research evidence, not as general performance claims.
 
 ## Checklist version
 
-This document now serves as benchmark-readiness checklist v1 for the repository. Future changes should update this version deliberately rather than letting benchmark prerequisites drift implicitly.
+This document still serves as benchmark-readiness checklist v1 for the repository. Future benchmark claims should update this checklist deliberately rather than letting methodology drift implicitly.
 
 ## Local harness
 
@@ -20,7 +22,7 @@ For tighter tuning loops, the harness also accepts lightweight filters such as:
 zig build bench -Doptimize=ReleaseFast -- --datasets=duplicate_heavy,random --sizes=1024,4096 --iterations=200
 ```
 
-The harness is intended for developer measurement and tuning, not for CI and not for README marketing claims.
+The harness is intended for developer measurement and tuning. The README uses only a small benchmark subset from the stable milestone and keeps the conclusions conservative.
 
 It currently:
 
